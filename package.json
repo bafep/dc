@@ -13,7 +13,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "GPL",
   "dependencies": {
     "@typegoose/typegoose": "^10.0.0",
     "axios": "^0.24.0",
