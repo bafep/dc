@@ -33,3 +33,6 @@ dist
 node_modules
 .env
 >>>>>>> 8be7140 (yes)
+
+package-lock.json
+yarn.lock

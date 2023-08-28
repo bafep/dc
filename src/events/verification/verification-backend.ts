@@ -15,12 +15,20 @@ import {
 } from "discord.js";
 import { Token } from "../../functions/token";
 
+// database
+import Verification from "../../models/verification/verification";
+import DeniedUser from "../../models/verification/denied";
+
+// events
+import { ExtendedClient } from "../../structures/Client";
+import { BaseEvent } from "../../structures/Event";
+import { ExtendedButtonInteraction } from "../../typings/Command";
+
+import { cooldowns } from "../../cooldowns";
 import emojis from "../../styles/emojis";
 
 // cooldowns
 const buttonCooldown = new Set<string | Snowflake>();
-
-import { cooldowns } from "../../cooldowns";
 
 const verificationCooldown: number = cooldowns.verificationRequest;
 const ___defaultCooldown: number = cooldowns.default;
@@ -74,15 +82,6 @@ function buttonCldw(interaction: CommandInteraction, cooldown: number) {
   buttonCooldown.add(interaction.user.id);
   setTimeout(() => buttonCooldown.delete(interaction.user.id), cooldown);
 }
-
-// database
-import Verification from "../../models/verification/verification";
-import DeniedUser from "../../models/verification/denied";
-
-// events
-import { ExtendedClient } from "../../structures/Client";
-import { BaseEvent } from "../../structures/Event";
-import { ExtendedButtonInteraction } from "../../typings/Command";
 
 export default class InteractionCreateEvent extends BaseEvent {
   constructor() {
@@ -209,7 +208,7 @@ export default class InteractionCreateEvent extends BaseEvent {
             }\n**Email:** || ${verifiedUserInfo?.email} ||
           
           Angenommen von ${
-            interaction.user.tag
+            interaction.user
           } am ${new Date().toLocaleString()}`
           )
           .setColor("Green");
@@ -599,7 +598,7 @@ export default class InteractionCreateEvent extends BaseEvent {
       Hey ${interaction.user.username}! 
       Hier ist die Email Adresse der Administration:
 
-      \`bafep.discord@gmail.com\`
+      \`${process.env.SERVER_EMAIL}\`
 
       Bitte verwende diese Kontaktmöglichkeit nur bei dringenden Anliegen, sonstige Fragen kannst du im Chat stellen.
       Wir werden uns so schnell wie möglich bei dir melden.
